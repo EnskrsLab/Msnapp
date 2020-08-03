@@ -1,11 +1,11 @@
-package com.example.msnapp
+package com.example.msnapp.Controller
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.msnapp.R
 import kotlinx.android.synthetic.main.activity_create_user.*
-import kotlin.random.Random
 import java.util.*
 
 class CreateUserActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun generateUserAvatar(view: View) {
-        val random = java.util.Random()
+        val random = Random()
         val color = random.nextInt(2)
         val avatar = random.nextInt(28)
 
@@ -32,7 +32,7 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun generateColorClicked(view: View) {
-        val random = java.util.Random()
+        val random = Random()
         val r = random.nextInt(255)
         val g = random.nextInt(255)
         val b = random.nextInt(255)
