@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
     fun loginCreateUserBtnClicked(view: View){
         val createUserIntent = Intent(this, CreateUserActivity::class.java)
         startActivity(createUserIntent)
-        finish()    
+        finish()
     }
     fun errorToast() {
         Toast.makeText(this, "Something went wrong, please try again!", Toast.LENGTH_LONG).show()
