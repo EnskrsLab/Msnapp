@@ -18,17 +18,19 @@ import com.example.msnapp.R
 import com.example.msnapp.Services.AuthService
 import com.example.msnapp.Services.UserDataService
 import com.example.msnapp.Utilities.BROADCAST_USER_DATA_CHANGE
+import com.example.msnapp.Utilities.SOCKET_URL
+import io.socket.client.IO
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    val socket = IO.socket(SOCKET_URL)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -39,13 +41,24 @@ class MainActivity : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        hideKeyboard()
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
-            IntentFilter(BROADCAST_USER_DATA_CHANGE)
-        )
     }
 
+    override fun onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
+            IntentFilter(BROADCAST_USER_DATA_CHANGE))
+        socket.connect()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        socket.disconnect()
+        super.onDestroy()
+    }
 
     private val userDataChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -99,19 +112,17 @@ class MainActivity : AppCompatActivity() {
                     val channelDesc = descTextField.text.toString()
 
                     //Create channel and close the dialog
-                    hideKeyboard()
-
+                    socket.emit("newChannel", channelName, channelDesc)
                 }
                 .setNegativeButton("Cancel") {dialog: DialogInterface?, which: Int ->
                     //cancel and close the dialog
-                    hideKeyboard()
                 }
                 .show()
         }
     }
 
     fun sendMsgBtnClicked(view: View){
-
+        hideKeyboard()
     }
 
     fun hideKeyboard() {
