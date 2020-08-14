@@ -10,13 +10,17 @@
         tools:context=".Controller.MainActivity">
 
     <TextView
+            android:id="@+id/mainChannelName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Please Login!"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" android:textAlignment="center"
-            android:id="@+id/mainChannelName"/>
+            app:layout_constraintTop_toTopOf="parent" />
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
